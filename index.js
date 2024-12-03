@@ -1,58 +1,35 @@
-console.log("Hello World"); 
+var express=require("express")
+var fs= require("fs")
+var app=express()
+// add middle ware function for body parsing
 
-function EmployeeInfo(name, Salary)
-{
-    console.log("Welcome " + name+ "Your monthly Salary is "+ Salary)
-}
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
 
-console.log ("This is my first program")
+app.get('/',function(req,res){
 
-var EmpName="John"
-var EmpSalary= 50000
+    res.send("hello it is my first express application")
 
-EmployeeInfo(EmpName,EmpSalary)
-
-function EmployeeInfo(name,Salary)
-{
-    console.log("Wellcome " + name+ " Your monthly Salary is "+Salary)
-}
-console.log ("This is my first programe")
-var EmpName="John"
-var EmpSalary= 50000
-
-EmployeeInfo(EmpName,EmpSalary)
-
-const EmpSkills=  (skills)=> {
-    console.log("Expert in "+ skills)
-}
-EmpSkills("java")
-
-const student= require('./StudentInfo')
-const person = require('./Person')
-console.log("Student Name:" +student.getName())
-console.log(student.Location())
-console.log(student.dob)
-console.log(student.Studentgrade())
-console.log("grade is "+student.Studentgrade(55) )
-person1= new person("Jim","USA","myemail@gmail.com")
-console.log("using Person Module", person1.getPersonInfo())
-console.log("Programe ended")
+})
+app.listen(5002,function(){console.log("server is running on port 5002")})
 
 
+app.get('/about',function(req,res)
+{res.send("This is basic express applicaton")
+})
+app.get('/users/:userid/:bookid',function(req,res){
+    res.send(req.params)
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import Calculator from './SimpleCalculator'; 
+})
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <Calculator /> {/* Render the Calculator component */}
-  </React.StrictMode>
-);
-
-
-
-
+app.get('/GetStudents',function (req,res)
+ { studentdata={}
+  fs.readFile(__dirname + "/" + "Student.json", 'utf8',
+function (err, data) { console.log( data );
+  res.json({ 'status':true, 'Status_Code':200,
+  'requested at': req.localtime, 'requrl':req.url,
+  'request Method':req.method, 'studentdata':JSON.parse(
+data)});
+});
+})
 
